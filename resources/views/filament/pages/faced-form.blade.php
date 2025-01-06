@@ -8,13 +8,17 @@
         /* Set the paper size (CR80) */
         @page {
             size: 85.60mm 54.00mm; /* CR80 dimensions */
-            margin: 0;
+            margin: 2;
+
         }
 
         body {
             margin: 0;
             padding: 0;
-            width: 85.60mm;
+            border-style: solid;
+            
+
+            width: 83.60mm;
             height: 54.00mm;
             display: flex;
             flex-direction: column;
@@ -22,6 +26,7 @@
             align-items: center;
             text-align: center;
         }
+
 
         /* Set the size of the QR code container */
         .qr-container {
@@ -33,12 +38,18 @@
         }
 
         /* Ensure content fits within the page */
-        h4, h3 {
+        h4 {
             margin: 0;
+        }
+
+        h3{
+            margin-top: 110px;
+            margin-bottom: 0;
         }
         
         h5 {
-            margin-top: -10;
+            margin-top: -6;
+            margin-bottom: 4;
 
         }
 
@@ -49,20 +60,24 @@
             margin-top: 1px;
         }
 
+  
+
+
     </style>
 </head>
 <body>
     <div>
         <h4>ECT Beneficiaries</h4>
-        <p>{{ $individual->first_name }} @if($individual->middle_name)
-            {{ Str::substr($individual->middle_name, 0, 1,) }}.
-            @endif{{ $individual->last_name }}</p>
+        <p>Barangay: {{$location->barangay}}</p>
 
         <h5>QR Code</h5>
 
         <div class="qr-container">
             {!! DNS2D::getBarcodeHTML("$individual->qr_number", 'QRCODE', 6, 5) !!} <!-- You can adjust the width/height here -->
         </div>
+        <h3>{{ $individual->first_name }} @if($individual->middle_name)
+            {{ Str::substr($individual->middle_name, 0, 1,) }}.
+            @endif{{ $individual->last_name }}</h3>
     </div>
 </body>
 </html>

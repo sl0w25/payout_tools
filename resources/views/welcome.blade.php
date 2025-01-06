@@ -183,10 +183,10 @@
                 .then(data => {
                     if (data.error) {
                         errorContainer.classList.remove('d-none');
-                        errorContainer.textContent = data.error;
+                        errorContainer.innerHTML = data.error;
                     } else {
                         successContainer.classList.remove('d-none');
-                        successContainer.textContent = data.message;
+                        successContainer.innerHTML = data.message;
                         refreshTable(data.attendances);
                     }
                 })

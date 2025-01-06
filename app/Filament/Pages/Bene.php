@@ -69,7 +69,7 @@ class Bene extends Page implements HasForms, HasTable
             ])
             ->actions([
                 ViewAction::make('view_details')
-                    ->label('QR Code')
+                    ->label('View Details')
                     ->modalContent(function ($record) {
                         return view('filament.modals.family_details', [
                             'familyHead' => FamilyHead::where('fam_id', $record->id)->get(),

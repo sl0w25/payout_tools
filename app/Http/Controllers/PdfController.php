@@ -40,7 +40,7 @@ class PdfController extends Controller
                 );
 
        $data = [
-           'employee' => $location,
+           'location' => $location,
            'individual' => $head,
        ];
 
@@ -56,7 +56,7 @@ class PdfController extends Controller
 
                 
                 $data = [
-                    'employee' => $location,
+                    'location' => $location,
                     'individual' => $head
                 ];
 

@@ -29,14 +29,14 @@ class QrCodeController extends Controller
     
         $bene = FamilyHead::where('qr_number', $request->qr_number)->first();
         $alreadyRecorded = Attendance::where('fam_id', $bene->fam_id)
-            ->whereDate('created_at', today())
             ->exists();
+        $time_in = Attendance::where('fam_id', $bene->fam_id)->first();
        
         if (!$bene) {
             return response()->json(['error' => 'Bene not found!', 'attendances' => Attendance::latest()->get()]);
        
          }else if ($alreadyRecorded) {
-            return response()->json(['message' => $bene->first_name.' ' . $bene->last_name .' was already paid.', 'attendances' => Attendance::latest()->get()]);
+            return response()->json(['error' => 'Oops!<br>' . $bene->first_name.' ' . $bene->last_name .' was already paid on ' . $time_in->time_in, 'attendances' => Attendance::latest()->get()]);
         }
         else if($bene) {
     

@@ -271,6 +271,7 @@ class EncodeForm extends Page implements HasForms
                     ->label('Shelter Classification')
                     ->required()
                     ->options([
+                        'N/A' => 'N/A',
                         'Partially Damaged' => 'Partially Damaged',
                         'Totally Damaged' => 'Totally Damaged',
                     ])->native(false),
@@ -348,7 +349,7 @@ class EncodeForm extends Page implements HasForms
 
                            ])->columns(4)
                              ->createItemButtonLabel('Add Family Members') // Label for the add button
-                             ->defaultItems(1)
+                             ->defaultItems(0)
 
                    ])->statePath('fmember')
 
