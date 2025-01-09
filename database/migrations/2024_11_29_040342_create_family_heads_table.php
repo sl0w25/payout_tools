@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('family_heads', function (Blueprint $table) {
             $table->id();
             $table->string('user_id');
+            $table->string('province');
+            $table->string('municipality');
+            $table->string('barangay');
             $table->string('last_name');
             $table->string('first_name');
             $table->string('middle_name');

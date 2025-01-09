@@ -34,7 +34,7 @@
             height: 204.12px; /* 54.00mm converted to pixels (CR80 height) */
             margin-top: 1px;
             position: absolute;
-            margin-left: 75;
+            margin-left: 78;
         }
 
         /* Ensure content fits within the page */
@@ -73,7 +73,7 @@
         <h5>QR Code</h5>
 
         <div class="qr-container">
-            {!! DNS2D::getBarcodeHTML("$individual->qr_number", 'QRCODE', 6, 5) !!} <!-- You can adjust the width/height here -->
+            {!! DNS2D::getBarcodeHTML("$individual->qr_number", 'QRCODE', 5, 5) !!} <!-- You can adjust the width/height here -->
         </div>
         <h3>{{ $individual->first_name }} @if($individual->middle_name)
             {{ Str::substr($individual->middle_name, 0, 1,) }}.

@@ -8,6 +8,9 @@ class FamilyHead extends Model
 {
     protected $fillable = [
                          'fam_id',
+                         'province',
+                         'municipality',
+                         'barangay',
                          'last_name',
                          'first_name',
                          'middle_name',
@@ -28,7 +31,8 @@ class FamilyHead extends Model
                          '4ps',
                          'ips',
                          'others',
-                         'qr_number'
+                         'qr_number',
+                         'status'
                         ];
 
                         // public function location()

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\QrCodeController;
+use App\Http\Middleware\ForceHttps;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -17,6 +18,11 @@ Route::get('/bene/{id}/print/{trans_no?}', [PdfController::class, 'print'])->nam
 Route::post('/', [QrCodeController::class, 'store'])->name('scan.qr');
 
 Route::get('/', [QrCodeController::class, 'index'])->name('qr-scanner');
+   
+
+
+
+
 
 
 

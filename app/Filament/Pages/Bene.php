@@ -48,6 +48,7 @@ class Bene extends Page implements HasForms, HasTable
 
 
             ->columns([
+                TextColumn::make('id')->label('Payroll Number')->searchable(),
                 TextColumn::make('province')->label('Province')->searchable(),
                 TextColumn::make('municipality')->label('Municipaity')->searchable(),
                 TextColumn::make('barangay')->label('Barangay')->searchable(),
@@ -59,8 +60,8 @@ class Bene extends Page implements HasForms, HasTable
                 // ->getStateUsing(fn(FamilyHead $record) => $record->first_name ." ". Str::substr($record->middle_name, 0, 1,) ." ". $record->last_name)
                 // ->wrap()
                 // ->searchable(),
-                TextColumn::make('accountInfo.shelter')->label('Shelter Classification')->searchable(),
-                TextColumn::make('assistance.disaster')->label('Disaster')->searchable(),
+                // TextColumn::make('accountInfo.shelter')->label('Shelter Classification')->searchable(),
+                // TextColumn::make('assistance.disaster')->label('Disaster')->searchable(),
                 TextColumn::make('assistance.status')->label('Status')->searchable(),
             ])
             ->searchable()

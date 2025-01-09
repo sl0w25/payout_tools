@@ -11,7 +11,7 @@ use App\Models\LocationInfo;
 class QrCodeController extends Controller
 {
 
-   
+    
     public function index()
     {
         $attendances = Attendance::paginate(10); 
@@ -55,8 +55,11 @@ class QrCodeController extends Controller
             'time_in' => now()->format('Y-m-d h:i A'),
         ]);
     
-        Assistance::where('fam_id', $bene->fam_id)
+            Assistance::where('fam_id', $bene->fam_id)
             ->update(['cost' => '5000', 'status' => 'Paid']);
+
+            FamilyHead::where('fam_id', $bene->fam_id)
+            ->update(['status' => 'Paid']);
             
     
             return response()->json([
