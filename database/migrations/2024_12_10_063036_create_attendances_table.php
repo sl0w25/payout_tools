@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
             $table->string('fam_id');
+            $table->string('province');
+            $table->string('municipality');
             $table->string('barangay');
             $table->string('first_name');
             $table->string('middle_name');
@@ -22,7 +24,7 @@ return new class extends Migration
             $table->string('qr_number');
             $table->string('status')->nullable();
             $table->string('amount');
-            $table->string('time-in');
+            $table->string('time_in');
             $table->timestamps();
         });
     }

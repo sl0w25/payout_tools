@@ -13,69 +13,163 @@
         </div>
 
         <!-- Table Section -->
-        <table class="w-full divide-y divide-gray-200">
-            <thead class="bg-gray-100">
-                <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Province
-                    </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Total Unpaid
-                    </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Total Paid
-                    </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Total Beneficiaries
-                    </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Action
-                    </th>
-                </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-                @foreach ($provinces as $index => $province)
+        <div class="overflow-x-auto">
+            <table class="table-auto w-full divide-y divide-gray-200">
+                <thead class="bg-gray-100">
                     <tr>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ $province['name'] }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ $province['unpaid'] }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ $province['paid'] }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ $province['bene'] }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <button 
-                                class="text-blue-600 hover:text-blue-900" 
-                                x-data="{ open: false }" 
-                                @click="open = !open">
-                                View
-                            </button>
-                        </td>
+                        <th class="px-6 py-3 text-left text-m font-medium text-gray-500 uppercase tracking-wider">
+                            Province
+                        </th>
+                        <th class="px-6 py-3 text-left text-m font-medium text-gray-500 uppercase tracking-wider">
+                            Total Unpaid
+                        </th>
+                        <th class="px-6 py-3 text-left text-m font-medium text-gray-500 uppercase tracking-wider">
+                            Total Paid
+                        </th>
+                        <th class="px-6 py-3 text-left text-m font-medium text-gray-500 uppercase tracking-wider">
+                            Total Beneficiaries
+                        </th>
+                        <th class="px-6 py-3 text-left text-m font-medium text-gray-500 uppercase tracking-wider">
+                            Action
+                        </th>
                     </tr>
-                    <tr x-show="open" x-data="{ open: false }">
-                        <td colspan="5" class="bg-gray-50 px-6 py-4">
-                            <h4 class="font-semibold mb-2">Detailed Data for {{ $province['name'] }}</h4>
-                            <table class="table-auto w-full text-left border border-gray-200">
-                                <thead>
-                                    <tr class="bg-gray-100">
-                                        <th class="px-4 py-2">Detail Type</th>
-                                        <th class="px-4 py-2">Value</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="px-4 py-2">Example Detail 1</td>
-                                        <td class="px-4 py-2">Value 1</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="px-4 py-2">Example Detail 2</td>
-                                        <td class="px-4 py-2">Value 2</td>
-                                    </tr>
-                                    <!-- Add more rows as needed -->
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    @foreach ($provinces as $province)
+                        <tr x-data="{ open: false, loading: false }" :class="open ? 'bg-gray-50' : ''">
+                            <td class="px-6 py-4 whitespace-nowrap">{{ $province['name'] }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ $province['unpaid'] }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ $province['paid'] }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ $province['bene'] }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <!-- Modal Trigger Button -->
+                                <button 
+                                    @click="loading = true; open = true; setTimeout(() => loading = false, 500)" 
+                                    class="flex items-center bg-blue-600 text-black px-4 py-1 rounded shadow hover:bg-green-700 focus:outline-none"
+                                    x-data 
+                                    x-init="$dispatch('update-municipalities', {{ json_encode($province['municipality']) }})">
+                                    View
+                                </button>
+
+                                
+                                <!-- Modal -->
+                                <div 
+                                    x-show="open" 
+                                    x-cloak 
+                                    class="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50 backdrop-blur-sm"
+                                    @click.away="open = false"
+                                    aria-hidden="true"
+                                    aria-modal="true"
+                                    role="dialog"
+                                    style="backdrop-filter: blur(10px);" 
+                                >
+                                    <div 
+                                        class="bg-white rounded-lg shadow-lg w-full max-w-4xl p-6 relative md:w-2/3"
+                                        @keydown.escape.window="open = false"
+                                    >
+
+
+                                        <!-- Loading Spinner -->
+                                        <div x-show="loading" class="absolute inset-0 flex items-center justify-center bg-white bg-opacity-75">
+                                            <svg class="animate-spin h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                                            </svg>
+                                        </div>
+
+                            
+
+                                        <!-- Modal Content -->
+                                        <div x-show="!loading" x-data="{
+                                            municipalities: {{ json_encode($province['municipality']) }},
+                                            currentPage: 1,
+                                            perPage: 8,
+                                            formatNumber(number) {
+                                                if (isNaN(number)) return number; // Return as is if not a number
+                                                return new Intl.NumberFormat('en-US').format(number);
+                                            },
+                                            get paginatedMunicipalities() {
+                                                let start = (this.currentPage - 1) * this.perPage;
+                                                let visible = this.municipalities.slice(start, start + this.perPage);
+                                                return visible.map(municipality => ({
+                                                    ...municipality,
+                                                    unpaid: this.formatNumber(municipality.unpaid),
+                                                    paid: this.formatNumber(municipality.paid),
+                                                    bene: this.formatNumber(municipality.bene)
+                                                }));
+                                            },
+                                            get totalPages() {
+                                                return Math.ceil(this.municipalities.length / this.perPage);
+                                            }
+                                        }"
+
+                                        >
+                                            <h4 class="text-lg font-semibold mb-4 text-gray-800">
+                                                Statistics for {{ $province['name'] }}
+                                            </h4>
+                                            <p>Total Beneficiaries: {{ $province['bene'] }}</p>
+                                            <p>Total Unpaid: {{ $province['unpaid'] }}</p>
+                                            <p>Total Paid: {{ $province['paid'] }}</p>
+                                            <p>Total Amount Disbursed: {{ $province['amount'] }} </p>
+                                            <table class="table-auto w-full divide-y divide-gray-200">
+                                                <thead>
+                                                    <tr>
+                                                    <th class="px-6 py-3 text-left text-m font-medium text-gray-500 uppercase tracking-wider">Municipality</th>
+                                                    <th class="px-6 py-3 text-left text-m font-medium text-gray-500 uppercase tracking-wider">Unpaid</th>
+                                                    <th class="px-6 py-3 text-left text-m font-medium text-gray-500 uppercase tracking-wider">Paid</th>
+                                                    <th class="px-6 py-3 text-left text-m font-medium text-gray-500 uppercase tracking-wider">Beneficiaries</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="bg-white divide-y divide-gray-200">
+                                                    <template x-for="municipality in paginatedMunicipalities" :key="municipality.municipality">
+                                                        <tr>
+                                                            <td class="px-6 py-4 whitespace-nowrap" x-text="municipality.municipality"></td>
+                                                            <td class="px-6 py-4 whitespace-nowrap" x-text="municipality.unpaid"></td>
+                                                            <td class="px-6 py-4 whitespace-nowrap" x-text="municipality.paid"></td>
+                                                            <td class="px-6 py-4 whitespace-nowrap" x-text="municipality.bene"></td>
+                                                        </tr>
+                                                    </template>
+                                                </tbody>
+                                            </table>
+                                            <!-- Pagination Controls -->
+                                            <div class="mt-4 flex justify-between items-center">
+                                                <button 
+                                                    @click="currentPage = Math.max(1, currentPage - 1)" 
+                                                    class="px-3 py-1 bg-gray-200 rounded shadow hover:bg-gray-300"
+                                                    :disabled="currentPage === 1"
+                                                >
+                                                    Previous
+                                                </button>
+                                                <span x-text="'Page ' + currentPage + ' of ' + totalPages"></span>
+                                                <button 
+                                                    @click="currentPage = Math.min(totalPages, currentPage + 1)" 
+                                                    class="px-3 py-1 bg-gray-200 rounded shadow hover:bg-gray-300"
+                                                    :disabled="currentPage === totalPages"
+                                                >
+                                                    Next
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Close Button -->
+                                        <!-- <button 
+                                            @click="open = false" 
+                                            class="absolute top-4 right-0 text-gray-500 hover:text-gray-700 focus:outline-none"
+                                            aria-label="Close Modal"
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                        </button> -->
+                                        
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
         <script src="//unpkg.com/alpinejs" defer></script>
     </x-filament::section>
 </x-filament-widgets::widget>

@@ -8,6 +8,8 @@ class Attendance extends Model
 {
     protected $fillable = [
         'fam_id',
+        'province',
+        'municipality',
         'barangay',
         'first_name',
         'middle_name',
@@ -15,7 +17,6 @@ class Attendance extends Model
         'ext_name',
         'status',
         'qr_number',
-        'barangay',
         'amount',
         'time_in'
     ];

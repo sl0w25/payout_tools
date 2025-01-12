@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>QR Code Attendance System</title>
+    <title>QR Code Monitoring</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-700 text-gray-800 font-poppins bg-blend-multiply bg-cover bg-fixed" style="background: linear-gradient(to bottom, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.15) 100%), radial-gradient(at top center, rgba(255,255,255,0.4) 0%, rgba(0,0,0,0.4) 120%) #989898;">
@@ -32,7 +32,6 @@
                         <thead class="bg-gray-800 text-white">
                             <tr>
                                 <th class="border border-gray-400 px-2 py-1">#</th>
-                                <th class="border border-gray-400 px-2 py-1">Barangay</th>
                                 <th class="border border-gray-400 px-2 py-1">First Name</th>
                                 <th class="border border-gray-400 px-2 py-1">Middle Name</th>
                                 <th class="border border-gray-400 px-2 py-1">Last Name</th>
@@ -44,7 +43,6 @@
                             @forelse ($attendances as $attendance)
                                 <tr class="border border-gray-300">
                                     <td class="px-2 py-1">{{ $loop->iteration }}</td>
-                                    <td class="px-2 py-1">{{ $attendance->barangay }}</td>
                                     <td class="px-2 py-1">{{ $attendance->first_name }}</td>
                                     <td class="px-2 py-1">{{ $attendance->middle_name }}</td>
                                     <td class="px-2 py-1">{{ $attendance->last_name }}</td>
@@ -77,7 +75,6 @@
 
             row.innerHTML = `
                 <td class="px-2 py-1">${attendance.id}</td>
-                <td class="px-2 py-1">${attendance.barangay}</td>
                 <td class="px-2 py-1">${attendance.first_name}</td>
                 <td class="px-2 py-1">${attendance.middle_name || ""}</td>
                 <td class="px-2 py-1">${attendance.last_name}</td>
@@ -128,7 +125,9 @@
                     return response.json();
                 })
                 .then(data => {
+                    console.log('Attendance Response:', data);
                     if (data.error) {
+                        console.log(data.error);
                         errorContainer.classList.remove('hidden');
                         errorContainer.innerHTML = data.error;
                     } else {
@@ -138,7 +137,7 @@
                     }
                 })
                 .catch(error => {
-                    console.error('Error:', error.message);
+                    console.log('Error:', error.message);
                     errorContainer.classList.remove('hidden');
                     errorContainer.textContent = error.message;
                 });

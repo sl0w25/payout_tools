@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\QrCodeController;
-use App\Http\Middleware\ForceHttps;
 
 // Route::get('/', function () {
 //     return view('welcome');

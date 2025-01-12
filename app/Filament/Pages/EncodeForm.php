@@ -410,6 +410,9 @@ class EncodeForm extends Page implements HasForms
                     // Now create the FamilyHead with the generated or existing LocationInfo ID
         FamilyHead::create([
             'fam_id' => $fam_id->id, // Link FamilyHead to LocationInfo
+            'province' => $data['location']['province'],
+            'municipality' => $data['location']['municipality'],
+            'barangay' => $data['location']['barangay'],
             'last_name' => $data['fhead']['last_name'],
             'first_name' => $data['fhead']['first_name'],
             'middle_name' => $data['fhead']['middle_name'],
@@ -430,6 +433,7 @@ class EncodeForm extends Page implements HasForms
             '4ps' => $data['fhead']['4ps'],
             'ips' => $data['fhead']['ips'],
             'others' => $data['fhead']['others'],
+            'status' => 'Unpaid'
         ]);
 
         Assistance::create([
@@ -457,6 +461,7 @@ class EncodeForm extends Page implements HasForms
 
         FamilyInfo::create([
             'fam_id' => $fam_id->id,
+            
             'last_name' => $field['last_name'],
             'first_name' => $field['first_name'],
             'middle_name' => $field['middle_name'],

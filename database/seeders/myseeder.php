@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
 use App\Models\Aurora;
 use App\Models\Bataan;
 use App\Models\Bulacan;
@@ -9,13 +11,11 @@ use App\Models\Nueva;
 use App\Models\Pampanga;
 use App\Models\Tarlac;
 use App\Models\Zamb;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class myseeder extends Seeder
 {
     /**
-     * Seed the application's database.
+     * Run the database seeds.
      */
     public function run(): void
     {
@@ -33,7 +33,7 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($aurora as $auroras) {
-            Aurora::factory()->create([
+            Aurora::create([
                 'municipality' => $auroras,
                 'unpaid' => '',
                 'paid' => '',
@@ -57,7 +57,7 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($bataan as $bataans) {
-            Bataan::factory()->create([
+            Bataan::create([
                 'municipality' => $bataans,
             ]);
         }
@@ -91,7 +91,7 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($bulacan as $bulacans) {
-            Bulacan::factory()->create([
+            Bulacan::create([
                 'municipality' => $bulacans,
             ]);
         }
@@ -133,7 +133,7 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($nueva as $nuevas) {
-            Nueva::factory()->create([
+            Nueva::create([
                 'municipality' => $nuevas,
             ]);
         }
@@ -164,7 +164,7 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($pampanga as $pampangas) {
-            Pampanga::factory()->create([
+            Pampanga::create([
                 'municipality' => $pampangas,
             ]);
         }
@@ -192,7 +192,7 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($tarlac as $tarlacs) {
-            Tarlac::factory()->create([
+            Tarlac::create([
                 'municipality' => $tarlacs,
             ]);
         }
@@ -215,7 +215,7 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($zambales as $zambaless) {
-            Zamb::factory()->create([
+            Zamb::create([
                 'municipality' => $zambaless,
             ]);
         }
