@@ -4,6 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Assistance;
 use App\Models\Aurora;
+use App\Models\Bataan;
+use App\Models\Bulacan;
+use App\Models\Nueva;
+use App\Models\Pampanga;
+use App\Models\Tarlac;
+use App\Models\Zamb;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\FamilyHead;
@@ -68,8 +74,33 @@ class QrCodeController extends Controller
                 Assistance::where('fam_id', $bene->fam_id)->update(['cost' => '5000', 'status' => 'Paid']);
                 FamilyHead::where('fam_id', $bene->fam_id)->update(['status' => 'Paid']);
                 
-                if (in_array($bene->province, ['Aurora', 'Bulacan', 'Bataan', 'Nueva Ecija', 'Pampanga', 'Tarlac', 'Zambales'])) {
+                if ($bene->province == 'Aurora') {
                     Aurora::where('municipality', $bene->municipality)->increment('paid');
+                    Aurora::where('municipality', $bene->municipality)->decrement('unpaid');
+                }
+                if ($bene->province == 'Bulacan') {
+                    Bulacan::where('municipality', $bene->municipality)->increment('paid');
+                    Bulacan::where('municipality', $bene->municipality)->decrement('unpaid');
+                }
+                if ($bene->province == 'Bataan') {
+                    Bataan::where('municipality', $bene->municipality)->increment('paid');
+                    Bataan::where('municipality', $bene->municipality)->decrement('unpaid');
+                }
+                if ($bene->province == 'Nueva Ecija') {
+                    Nueva::where('municipality', $bene->municipality)->increment('paid');
+                    Nueva::where('municipality', $bene->municipality)->decrement('unpaid');
+                }
+                if ($bene->province == 'Pampanga') {
+                    Pampanga::where('municipality', $bene->municipality)->increment('paid');
+                    Pampanga::where('municipality', $bene->municipality)->decrement('unpaid');
+                }
+                if ($bene->province == 'Tarlac') {
+                    Tarlac::where('municipality', $bene->municipality)->increment('paid');
+                    Tarlac::where('municipality', $bene->municipality)->decrement('unpaid');
+                }
+                if ($bene->province == 'Zambales') {
+                    Zamb::where('municipality', $bene->municipality)->increment('paid');
+                    Zamb::where('municipality', $bene->municipality)->decrement('unpaid');
                 }
           });
         

@@ -81,8 +81,8 @@ class MyWidget extends Widget
             ['name' => 'Bataan','municipality' => $bamunicipality, 'unpaid' => number_format($bataanunpaid), 'paid' => number_format($bataanpaid), 'bene' => number_format($bataanbene), 'amount' => $baformattedAmount],
             ['name' => 'Bulacan','municipality' => $bumunicipality, 'unpaid' => number_format($bulacanunpaid), 'paid' => number_format($bulacanpaid), 'bene' => number_format($bulacanbene), 'amount' => $buformattedAmount],
             ['name' => 'Nueva Ecija','municipality' => $nemunicipality, 'unpaid' => number_format($nuevaunpaid), 'paid' => number_format($nuevapaid), 'bene' => number_format($nuevabene), 'amount' => $neformattedAmount],
-            ['name' => 'Pampanga','municipality' => $pmunicipality, 'unpaid' => number_format($pampangaunpaid), 'paid' => number_format($pampangapaid), 'bene' => number_format($pampangabene), 'amount' => $taformattedAmount],
-            ['name' => 'Tarlac','municipality' => $tmunicipality, 'unpaid' => number_format($tarlacunpaid), 'paid' => number_format($tarlacpaid), 'bene' => number_format($tarlacbene), 'amount' => $paformattedAmount],
+            ['name' => 'Pampanga','municipality' => $pmunicipality, 'unpaid' => number_format($pampangaunpaid), 'paid' => number_format($pampangapaid), 'bene' => number_format($pampangabene), 'amount' => $paformattedAmount],
+            ['name' => 'Tarlac','municipality' => $tmunicipality, 'unpaid' => number_format($tarlacunpaid), 'paid' => number_format($tarlacpaid), 'bene' => number_format($tarlacbene), 'amount' => $taformattedAmount],
             ['name' => 'Zambales','municipality' => $zmunicipality, 'unpaid' => number_format($zambalesunpaid), 'paid' => number_format($zambalespaid), 'bene' => number_format($zambalesbene), 'amount' => $zaformattedAmount],
         ];
 
