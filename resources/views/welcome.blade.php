@@ -161,4 +161,7 @@
         document.addEventListener('DOMContentLoaded', startScanner);
     </script>
 </body>
+<!-- <footer class="mt-auto text-center">
+   <p class="text-bg-light p-2">Copyright &copy; 2022, All Rights reserved</p></span>
+   <script src="https://kit.fontawesome.com/0befeeeabe.js" crossorigin="anonymous"></script> -->
 </html>

@@ -7,6 +7,13 @@ use App\Models\FamilyHead;
 use App\Models\FamilyInfo;
 use App\Models\AccountInfo;
 use App\Models\Assistance;
+use App\Models\Aurora;
+use App\Models\Bataan;
+use App\Models\Bulacan;
+use App\Models\Nueva;
+use App\Models\Pampanga;
+use App\Models\Tarlac;
+use App\Models\Zamb;
 use Doctrine\DBAL\Exception\InvalidColumnType\ColumnScaleRequired;
 use Filament\Pages\Page;
 use Filament\Forms\Form;
@@ -21,6 +28,7 @@ use Filament\Actions\Action;
 use Filament\Forms\Components\Repeater;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\DB;
 
 class EncodeForm extends Page implements HasForms
 {
@@ -394,6 +402,7 @@ class EncodeForm extends Page implements HasForms
 
           
         } else {
+            
             // If 'id' doesn't exist, just create a new LocationInfo
             $fam_id = LocationInfo::create([
                 'region' => $data['location']['region'],
@@ -402,7 +411,13 @@ class EncodeForm extends Page implements HasForms
                 'district' => $data['location']['district'],
                 'barangay' => $data['location']['barangay'],
                 'ec' => $data['location']['ec'],
+                
             ]);
+            // if ($fam_id->province == 'Aurora') {
+
+            //   //  DD($fam_id->province);
+            //     Aurora::where('municipality', $fam_id->municipality)->update(['bene' => +1, 'unpaid' => +1]);
+            // }
 
         
 
@@ -461,7 +476,6 @@ class EncodeForm extends Page implements HasForms
 
         FamilyInfo::create([
             'fam_id' => $fam_id->id,
-            
             'last_name' => $field['last_name'],
             'first_name' => $field['first_name'],
             'middle_name' => $field['middle_name'],
@@ -474,7 +488,6 @@ class EncodeForm extends Page implements HasForms
             'occupation' => $field['occupation'],
             'vulnerability_type' => $field['vulnerability_type'],
         ]);
-
 
 
         }

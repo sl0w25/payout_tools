@@ -11,6 +11,7 @@ use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Filament\Widgets;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -19,22 +20,27 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Filament\Widgets\MyWidget;
-use App\Http\Middleware\VerifyIsAdmin;
 
-class AdminPanelProvider extends PanelProvider
+class AppPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
-          //  ->default()
-            ->id('admin')
-            ->path('admin')
+            ->default()
+            ->id('app')
+            ->path('app')
             ->login()
+            ->registration()
+            ->profile()
+            ->widgets([
+                \App\Filament\Widgets\MyWidget::class, // Add your widget here
+            ])
             ->userMenuItems([
                 MenuItem::make()
-                    ->label('User')
+                    ->label('Admin')
                     ->icon('heroicon-o-cog-6-tooth')
-                    ->url('/app')
+                    ->url('/admin')
+                    ->visible(fn (): bool => Auth::check() && Auth::user()->isAdmin())
             ])
             ->colors([
                 'danger' => Color::Red,
@@ -44,18 +50,15 @@ class AdminPanelProvider extends PanelProvider
                 'success' => Color::Emerald,
                 'warning' => Color::Orange,
             ])
-            ->brandLogo(fn () => view('vendor.filament.components.brand'))
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
-            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
+            ->discoverResources(in: app_path('Filament/App/Resources'), for: 'App\\Filament\\App\\Resources')
+            ->discoverPages(in: app_path('Filament/App/Pages'), for: 'App\\Filament\\App\\Pages')
             ->pages([
                 Pages\Dashboard::class,
-              
             ])
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
+            ->discoverWidgets(in: app_path('Filament/App/Widgets'), for: 'App\\Filament\\App\\Widgets')
             ->widgets([
-                //Widgets\AccountWidget::class,
-                //Widgets\FilamentInfoWidget::class,
-                  
+                // Widgets\AccountWidget::class,
+                // Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -67,17 +70,16 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
-                VerifyIsAdmin::class
+            ])
+            ->authMiddleware([
+                Authenticate::class,
             ]);
-            // ->authMiddleware([
-            //     Authenticate::class,
-            // ]);
     }
 
     protected function getWidgets(): array
-{
-    return [
-        MyWidget::class,
-    ];
-}
+    {
+        return [
+            MyWidget::class,
+        ];
+    }
 }
