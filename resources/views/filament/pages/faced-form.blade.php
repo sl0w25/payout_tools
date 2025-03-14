@@ -16,7 +16,7 @@
             margin: 0;
             padding: 0;
             border-style: solid;
-            
+
 
             width: 83.60mm;
             height: 54.00mm;
@@ -46,7 +46,7 @@
             margin-top: 110px;
             margin-bottom: 0;
         }
-        
+
         h5 {
             margin-top: -6;
             margin-bottom: 4;
@@ -60,7 +60,7 @@
             margin-top: 1px;
         }
 
-  
+
 
 
     </style>

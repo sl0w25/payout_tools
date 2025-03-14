@@ -87,7 +87,7 @@
 
         function refreshTable(attendances) {
             const tbody = document.querySelector("#attendanceTableBody");
-            tbody.innerHTML = ""; 
+            tbody.innerHTML = "";
 
             attendances.forEach(attendance => {
                 addAttendanceRow(attendance);
@@ -139,7 +139,7 @@
                 .catch(error => {
                     console.log('Error:', error.message);
                     errorContainer.classList.remove('hidden');
-                    errorContainer.textContent = error.message;
+                    errorContainer.innerHTML = error.message;
                 });
             });
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Filament\Pages\ClassificationForm;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\QrCodeController;
@@ -16,8 +17,10 @@ Route::get('/bene/{id}/print/{trans_no?}', [PdfController::class, 'print'])->nam
 
 Route::post('/', [QrCodeController::class, 'store'])->name('scan.qr');
 
+Route::post('/admin/classification-form', [ClassificationForm::class, 'setSearchQuery'])->name('hired-qr');
+
 Route::get('/', [QrCodeController::class, 'index'])->name('qr-scanner');
-   
+
 
 
 

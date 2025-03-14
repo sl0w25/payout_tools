@@ -9,6 +9,7 @@ use App\Models\FamilyInfo;
 use App\Models\LocationInfo;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Crypt;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\Storage;
 use ZipArchive;
@@ -20,23 +21,23 @@ class PdfController extends Controller
         $location = LocationInfo::findOrFail($id);
         $head = FamilyHead::findOrFail($id);
         $familyhead = FamilyHead::where('fam_id', $location->id)->get();
+
         do {
             $qr_number = mt_rand(1111111111, 9999999999);
+          //  $encrypted_qr = Crypt::encrypt($qr_number); // Encrypt the QR number
         } while (FamilyHead::where('qr_number', $qr_number)->exists());
 
              $existingFamilyHead = FamilyHead::where('fam_id', $id)
              ->whereNull('qr_number')
-             ->orwhere('qr_number', $qr_number) 
-             ->first();  
- 
-     
+             ->orwhere('qr_number', $qr_number)
+             ->first();
+
+
              if ($existingFamilyHead) {
 
                  FamilyHead::updateOrCreate(
-                    ['fam_id' => $id], 
-                    [
-                        'qr_number' => $qr_number, 
-                    ]
+                    ['fam_id' => $id],
+                    ['qr_number' => $qr_number]
                 );
 
        $data = [
@@ -44,25 +45,25 @@ class PdfController extends Controller
            'individual' => $head,
        ];
 
-       $pdf = Pdf::loadView('filament.pages.faced-form', $data)
-       ->setPaper([0, 0, 85.60, 54.00], 'portrait');
+       $pdf = Pdf::loadView('filament.pages.faced-form', $data);
+      // ->setPaper([0, 0, 85.60, 54.00], 'portrait');
 
        return response($pdf->output(), 200, [
            'Content-Type' => 'application/pdf',
            'Content-Disposition' => 'inline; filename="faced_id_' . $location->id . '.pdf"',
        ]);
 
-             }else { 
+             }else {
 
-                
+
                 $data = [
                     'location' => $location,
                     'individual' => $head
                 ];
 
 
-                $pdf = Pdf::loadView('filament.pages.faced-form', $data)
-                ->setPaper([0, 0, 85.60, 54.00], 'portrait');
+                $pdf = Pdf::loadView('filament.pages.faced-form', $data);
+              //  ->setPaper([0, 0, 85.60, 54.00], 'portrait');
 
                 return response($pdf->output(), 200, [
                     'Content-Type' => 'application/pdf',
@@ -75,20 +76,21 @@ class PdfController extends Controller
 
     public function generateQrNumbers($id)
     {
-       
+
         $familyHeads = FamilyHead::all();
 
         foreach ($familyHeads as $head) {
-            
+
             if (!$head->qr_number) {
                 do {
-                    $qr_number = mt_rand(1111111111, 9999999999);  
-                } while (FamilyHead::where('qr_number', $qr_number)->exists());  
+                    $qr_number = mt_rand(1111111111, 9999999999);
+                    $encrypted_qr = Crypt::encrypt($qr_number);
+                } while (FamilyHead::where('qr_number', $encrypted_qr)->exists());
 
 
 
-              
-                $head->qr_number = $qr_number;
+
+                $head->qr_number = $encrypted_qr;
                 $head->save();
             }
         }
@@ -99,13 +101,13 @@ class PdfController extends Controller
 
 
 
-    public function downloadAll() 
+    public function downloadAll()
     {
-            
-               
+
+
                 $locations = LocationInfo::all();
 
-               
+
                 $pdfFolder = storage_path('app/temp_pdfs');
                 if (!is_dir($pdfFolder)) {
                     mkdir($pdfFolder, 0777, true);
@@ -124,27 +126,27 @@ class PdfController extends Controller
                             'individual' => $head,
                         ];
 
-                        
+
                         $pdf = Pdf::loadView('filament.pages.faced-form', $data)
                             ->setPaper([0, 0, 85.60, 54.00], 'portrait');
 
-                      
+
                         $pdfPath = $pdfFolder . "/faced_id_{$location->id}.pdf";
                         file_put_contents($pdfPath, $pdf->output());
 
-                       
+
                         $zip->addFile($pdfPath, "faced_id_{$location->id}.pdf");
                     }
 
                     $zip->close();
 
-                    
+
                     foreach (glob($pdfFolder . '/*.pdf') as $file) {
                         unlink($file);
                     }
                     rmdir($pdfFolder);
 
-                    
+
                     return response()->download($zipPath)->deleteFileAfterSend(true);
                 } else {
                     return response()->json(['error' => 'Unable to create ZIP file'], 500);
